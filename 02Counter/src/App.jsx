@@ -20,14 +20,12 @@ function App() {
       updateCounter(counter+1)
     }
 
-
     // // Counter value is being returned after call back --> this will increase counter multiple times
     // updateCounter(prevCounter => prevCounter+1)
     // updateCounter(prevCounter => prevCounter+1)
     // updateCounter(prevCounter => prevCounter+1)
     // updateCounter(prevCounter => prevCounter+1)
     
-
   }
 
   const removevalue = () => {
