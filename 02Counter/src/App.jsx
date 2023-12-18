@@ -14,9 +14,20 @@ function App() {
   const addvalue = () => {
     // console.log(`Clicked ${counter} `, Math.random())
     // counter = counter + 1
+
+    // Normally to update counter once
     if(counter <= 19){
       updateCounter(counter+1)
     }
+
+
+    // // Counter value is being returned after call back --> this will increase counter multiple times
+    // updateCounter(prevCounter => prevCounter+1)
+    // updateCounter(prevCounter => prevCounter+1)
+    // updateCounter(prevCounter => prevCounter+1)
+    // updateCounter(prevCounter => prevCounter+1)
+    
+
   }
 
   const removevalue = () => {
