@@ -1,25 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    userCredentials: {
-        phoneNumber: '',
-        password: ''
-    }
+  appState:{
+    value: 'login', // Initial state is 'login'
+  }
 }
 
 export const slice = createSlice({
-    name: 'userCredential',
+    name: 'appState',
     initialState,
     reducers: {
-        addUserCredential: (state, action) => {
-            state.userCredentials = {
-                phoneNumber: action.payload.phoneNumber,
-                password: action.payload.password
-            }
-        }
-    }
-})
+      setAppState: (state, action) => {
+        state.appState = action.payload;
+      },
+    },
+});
 
-export const {addUserCredential} = slice.actions
-
+export const {setAppState} = slice.actions
 export default slice.reducer

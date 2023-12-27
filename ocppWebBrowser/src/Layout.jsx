@@ -1,9 +1,15 @@
-import React from "react";
-import { Outlet } from "react-router-dom";
-import Header from './components/Header/Header'
-import Footer from './components/Footer/Footer'
+import React, {useEffect} from "react";
+import { Outlet, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function Layout(){
+    const appState = useSelector((state) => state.appState);
+
+    useEffect(() => {
+        // Log the appState variable
+         console.log('appState:', appState);
+    },[appState])
+    
     return(
         <>
         {/* <Header /> */}
