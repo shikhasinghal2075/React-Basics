@@ -7,20 +7,7 @@ import { Provider } from 'react-redux'
 import {store} from './app/store.js'
 import LoginPage from './components/Login/LoginPage.jsx'
 import HomePage from './components/Home/HomePage.jsx'
-
-// const router = createBrowserRouter([
-//   {
-//     path: '/',
-//     element: <Layout />,
-//     children: [
-//       {
-//         path: "",
-//         element: <LoginPage />
-//       }
-//     ]
-//   }
-// ])
-
+import ChooseConnector from './components/ChooseConnector/ChooseConnector.jsx'
 
 // Routes can be nested as per requirement
 const router = createBrowserRouter(
@@ -28,6 +15,10 @@ const router = createBrowserRouter(
     <Route path='/' element={<Layout />}>
       <Route path='' element={<LoginPage />} />
       <Route path='home' element={<HomePage />} />
+      <Route 
+        path='home/chooseConnector' 
+        element={<ChooseConnector 
+        />} />
     </Route>
   )
 )

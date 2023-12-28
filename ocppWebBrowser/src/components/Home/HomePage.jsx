@@ -1,30 +1,36 @@
-// Home.jsx
-
 import React, { useState } from 'react';
 import './HomePage.css'; // Import your CSS file for styling
 import { useDispatch, useSelector } from 'react-redux';
-import { setAppState} from '../../features/slice/slice';
-import {useNavigate } from 'react-router-dom'
+import { setAppState, setChargers} from '../../features/slice/slice';
 
 const HomePage = () => {
   const [longitude, setLongitude] = useState('');
   const [latitude, setLatitude] = useState('');
   const dispatch = useDispatch();
   const appState = useSelector((state) => state.appState);
-
-    // For debugging purpose
-  // useEffect(() => {
-  //   // Log the appState variable
-  //    console.log('appState:', appState);
-  // },[appState])
+  const [errorMessage, setErrorMessage] = useState(''); // New state for error message
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // You can perform any actions with the longitude and latitude values here
-    console.log('Longitude:', longitude);
-    console.log('Latitude:', latitude);
-    
-    
+
+    // Reset previous error message
+    // setErrorMessage('');
+
+    // Validation for compulsory fields
+    if (!longitude || !latitude) {
+      setErrorMessage('Longitude and Latitude are required fields.');
+      return;
+    }
+
+    // Validation for numeric values (numbers or decimals)
+    const numericRegex = /^-?\d*\.?\d+$/;
+
+    if (!numericRegex.test(longitude) || !numericRegex.test(latitude)) {
+      setErrorMessage('Longitude and Latitude must be numeric values.');
+      return;
+    }
+
+
     // Add further logic like making an API call or dispatching actions to Redux
     const postData = {
       longitude : longitude,
@@ -41,31 +47,32 @@ const HomePage = () => {
   })
       .then(response => response.json())
       .then(data => {
-        console.log('Charger data:', data);
-        // if(data['message'] ===  "Successfully login."){
-         
-        //   // Assuming successful login, change appState to 'home'
-          dispatch(setAppState({value: 'listChargers'}));
-        //   navigate(`/home`);
-        // }
-        // else{
-        //   console.log('Login Failed:', data);
-        //   setError('Invalid credentials. Please try again.');
-        // }
+        // console.log('Charger data:', data);
+        if (Array.isArray(data)){
+        // Assuming successful chargers found, navigate to choose connector screen
+          dispatch(setAppState({value: 'chooseConnector'}));
+          setErrorMessage('')
+          dispatch(setChargers(data))
+        }
+        else{
+          console.log('No charger Found', data);
+          setErrorMessage('No charger found for the given location.');
+        }
       })
       .catch(error => {
-        console.error('Error during login:', error);
-        setError('Invalid data. Please try again.');
+        console.error('Error in response', error);
+        setErrorMessage('Error in processing your request. Please try again.'); // Set error message
       });
-  
   };
 
   return (
     <div className="home-container">
       <h1>Home Page</h1>
       <form onSubmit={handleSubmit} className="form-container">
+        {/* Display error message */}
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
         <div className="form-group">
-          <label htmlFor="longitude">Longitude:</label>
+          <label htmlFor="longitude">Longitude<span className="required-symbol">*</span>:</label>
           <input
             type="text"
             id="longitude"
@@ -76,7 +83,7 @@ const HomePage = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="latitude">Latitude:</label>
+          <label htmlFor="latitude">Latitude<span className="required-symbol">*</span>:</label>
           <input
             type="text"
             id="latitude"

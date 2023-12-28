@@ -12,13 +12,6 @@ const LoginPage = () => {
   const appState = useSelector((state) => state.appState);
   const navigate = useNavigate();
 
-  // For debugging purpose
-  // useEffect(() => {
-  //   // Log the appState variable
-  //    console.log('appState:', appState);
-  // },[appState])
-
-
   const handleLogin = () => {
     // Check if both phone number and password are provided
     if (!phoneNumber || !password) {
@@ -55,7 +48,6 @@ const LoginPage = () => {
           console.log('Login successful:', data);
           // Assuming successful login, change appState to 'home'
           dispatch(setAppState({value: 'home'}));
-          navigate(`/home`);
         }
         else{
           console.log('Login Failed:', data);
