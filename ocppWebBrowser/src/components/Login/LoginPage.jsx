@@ -62,7 +62,10 @@ const LoginPage = () => {
 
   return (
     <div className="login-container">
-      <h1>Login Page</h1>
+      <div className="text-center">
+        <h1>Welcome back, Please login</h1>
+      </div>
+    
       {error && <p className="error-message">{error}</p>}
       <div className="input-container">
         <input
@@ -80,7 +83,9 @@ const LoginPage = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
       </div>
-      <button className="login-button" onClick={handleLogin}>Login</button>
+      <div className="text-center">
+        <button className="login-button" onClick={handleLogin}>Login</button>
+      </div>
     </div>
   );
 };

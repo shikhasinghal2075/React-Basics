@@ -67,7 +67,9 @@ const HomePage = () => {
 
   return (
     <div className="home-container">
-      <h1>Home Page</h1>
+      <div className="text-center">
+        <h1>Find Nearby Chargers</h1>
+      </div>
       <form onSubmit={handleSubmit} className="form-container">
         {/* Display error message */}
         {errorMessage && <p className="error-message">{errorMessage}</p>}
@@ -93,9 +95,11 @@ const HomePage = () => {
             required
           />
         </div>
-        <button type="submit" className="submit-button">
-          Submit
-        </button>
+        <div className="text-center">
+          <button type="submit" className="submit-button mx-auto">
+            Submit
+          </button>
+        </div>
       </form>
     </div>
   );
