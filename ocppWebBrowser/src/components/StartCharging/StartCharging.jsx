@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useCallback, useEffect, useState} from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { setAppState} from '../../features/slice/slice';
 
@@ -6,6 +6,32 @@ function StartCharging (){
     const selectedConn = useSelector((state) => state.selectedConnector)
     const dispatch = useDispatch();
     const [errorMessage, setErrorMessage] = useState('');
+    let askSession = 0
+
+
+    function checkTranscationStarted (){
+        // Construct the URL with parameters
+        const baseUrl = `http://localhost:8081/api/transactionStartedStatus`
+        const url = `${baseUrl}?chargerId=${selectedConn.chargerId}&connectorId=${selectedConn.connectorId}`;
+        
+        // Hit transaction started request
+        fetch(url,{ 
+            method: 'GET',
+            credentials: "include"
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Transaction Started status response: ', data);
+        })
+        .catch(error => {
+            console.error('Error during fetching transaction started status', error);
+            // setErrorMessage('Invalid data. Please try again.');
+        });
+    }
+
+    // useEffect(() => {
+
+    // },[askSession])
 
     // console.log(selectedConn)
     const handleStartCharging = () => {
@@ -24,6 +50,11 @@ function StartCharging (){
         .then(data => {
           if(data['message'] === "Remote Start Request sent to Charger!"){
             console.log('Remote start successful:', data);
+            // Set an interval to call the sayHello function every 1000 milliseconds (1 second)
+            const transactionStartedFlag = setInterval(checkTranscationStarted, 5000);
+
+            askSession = 1;
+
           }
           else if(data['error'] === "User not allowed to charge"){
             setErrorMessage(data['error']);

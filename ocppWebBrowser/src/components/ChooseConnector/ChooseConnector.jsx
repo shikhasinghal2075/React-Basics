@@ -1,14 +1,12 @@
 import React, {useState,useEffect} from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { setAppState, setSelectedConnector, setChargers} from '../../features/slice/slice';
-
 import './ChooseConnector.css';
 
 function ChooseConnector(){
     const dispatch = useDispatch();
     const chargers = useSelector((state) => state.chargers)
     const appState = useSelector((state) => state.appState);
-
     const [buttons, setButtons] = useState([])
     
     useEffect(() => {
