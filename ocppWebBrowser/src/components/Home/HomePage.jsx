@@ -44,31 +44,31 @@ const HomePage = () => {
     fetch(url,{ 
     method: 'GET',
     credentials: "include"
-  })
-      .then(response => response.json())
-      .then(data => {
-        // console.log('Charger data:', data);
-        if (Array.isArray(data)){
-        // Assuming successful chargers found, navigate to choose connector screen
-          dispatch(setAppState({value: 'chooseConnector'}));
-          setErrorMessage('')
-          dispatch(setChargers(data))
-        }
-        else{
-          console.log('No charger Found', data);
-          setErrorMessage('No charger found for the given location.');
-        }
-      })
-      .catch(error => {
-        console.error('Error in response', error);
-        setErrorMessage('Error in processing your request. Please try again.'); // Set error message
-      });
+    })
+    .then(response => response.json())
+    .then(data => {
+      // console.log('Charger data:', data);
+      if (Array.isArray(data)){
+      // Assuming successful chargers found, navigate to choose connector screen
+        dispatch(setAppState({value: 'chooseConnector'}));
+        setErrorMessage('')
+        dispatch(setChargers(data))
+      }
+      else{
+        console.log('No charger Found', data);
+        setErrorMessage('No charger found for the given location.');
+      }
+    })
+    .catch(error => {
+      console.error('Error in response', error);
+      setErrorMessage('Error in processing your request. Please try again.'); // Set error message
+    });
   };
 
   return (
     <div className="home-container">
       <div className="text-center">
-        <h1>Find Nearby Chargers</h1>
+      <h1 className="text-3xl font-bold mb-4">Find nearby Chargers</h1>
       </div>
       <form onSubmit={handleSubmit} className="form-container">
         {/* Display error message */}

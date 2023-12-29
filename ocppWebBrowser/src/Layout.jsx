@@ -7,7 +7,7 @@ function Layout(){
     const navigate = useNavigate();
     const chargers = useSelector((state) => state.chargers)
 
-    // Just to monitor data in console
+    // Just to monitor data in console at the moment
     useEffect(() => {
         console.log('Chargers data:', chargers);
         // Extract Charger Info and Connector Info
@@ -24,23 +24,18 @@ function Layout(){
     useEffect(() => {
         console.log('appState:', appState);
         // Log the appState variable
-        if(appState['value'] === 'home'){
-            navigate(`/home`);
-        }
-        else if(appState['value'] === 'login'){
+        if(appState['value'] === 'login'){
             navigate(``);
         }
         else{
             const path = appState['value']
-            navigate(`/home/${path}`);
+            navigate(`/${path}`);
         }        
     },[appState])
     
     return(
         <>
-        {/* <Header /> */}
-        <Outlet />
-        {/* <Footer /> */}
+            <Outlet />
         </>
     )
 }

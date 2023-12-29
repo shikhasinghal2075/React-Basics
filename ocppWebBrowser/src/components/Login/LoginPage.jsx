@@ -10,7 +10,6 @@ const LoginPage = () => {
   const [error, setError] = useState('');
   const dispatch = useDispatch();
   const appState = useSelector((state) => state.appState);
-  const navigate = useNavigate();
 
   const handleLogin = () => {
     // Check if both phone number and password are provided
@@ -63,7 +62,7 @@ const LoginPage = () => {
   return (
     <div className="login-container">
       <div className="text-center">
-        <h1>Welcome back, Please login</h1>
+      <h1 className="text-3xl font-bold mb-4">Welcome back, Please login</h1>
       </div>
     
       {error && <p className="error-message">{error}</p>}

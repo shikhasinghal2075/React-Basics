@@ -5,7 +5,11 @@ const initialState = {
     value: 'login', // Initial state is 'login'
   }
   ,
-  chargers: []
+  chargers: [],
+  selectedConnector: {
+    chargerId: '',
+    connectorId: ''
+  }
 }
 
 export const slice = createSlice({
@@ -17,9 +21,13 @@ export const slice = createSlice({
       },
       setChargers: (state, action) => {
         state.chargers = action.payload;
+      },
+      setSelectedConnector: (state, action) => {
+        state.selectedConnector.chargerId = action.payload.chargerId;
+        state.selectedConnector.connectorId = action.payload.connectorId;
       }
     },
 });
 
-export const {setAppState,setChargers} = slice.actions
+export const {setAppState,setChargers,setSelectedConnector} = slice.actions
 export default slice.reducer

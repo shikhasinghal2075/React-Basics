@@ -8,6 +8,7 @@ import {store} from './app/store.js'
 import LoginPage from './components/Login/LoginPage.jsx'
 import HomePage from './components/Home/HomePage.jsx'
 import ChooseConnector from './components/ChooseConnector/ChooseConnector.jsx'
+import StartCharging from './components/StartCharging/StartCharging.jsx'
 
 // Routes can be nested as per requirement
 const router = createBrowserRouter(
@@ -16,13 +17,13 @@ const router = createBrowserRouter(
       <Route path='' element={<LoginPage />} />
       <Route path='home' element={<HomePage />} />
       <Route 
-        path='home/chooseConnector' 
-        element={<ChooseConnector 
-        />} />
+        path='chooseConnector' 
+        element={<ChooseConnector />} 
+      />
+      <Route path='startCharging' element={<StartCharging />} />
     </Route>
   )
 )
-
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Provider store={store}>
