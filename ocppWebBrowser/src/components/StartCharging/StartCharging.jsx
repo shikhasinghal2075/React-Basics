@@ -6,10 +6,9 @@ function StartCharging (){
     const selectedConn = useSelector((state) => state.selectedConnector)
     const dispatch = useDispatch();
     const [errorMessage, setErrorMessage] = useState('');
-    let askSession = 0
+    let transactionStartedFlag;
 
-
-    function checkTranscationStarted (){
+    const checkTranscationStarted = function(){
         // Construct the URL with parameters
         const baseUrl = `http://localhost:8081/api/transactionStartedStatus`
         const url = `${baseUrl}?chargerId=${selectedConn.chargerId}&connectorId=${selectedConn.connectorId}`;
@@ -22,17 +21,16 @@ function StartCharging (){
         .then(response => response.json())
         .then(data => {
             console.log('Transaction Started status response: ', data);
+            if(data["Transaction Id"] !== null){
+              clearInterval(transactionStartedFlag);
+              dispatch(setAppState({value: 'sessionInfo'}));
+            }
         })
         .catch(error => {
             console.error('Error during fetching transaction started status', error);
-            // setErrorMessage('Invalid data. Please try again.');
         });
     }
-
-    // useEffect(() => {
-
-    // },[askSession])
-
+    
     // console.log(selectedConn)
     const handleStartCharging = () => {
         // Construct the URL with parameters
@@ -51,9 +49,9 @@ function StartCharging (){
           if(data['message'] === "Remote Start Request sent to Charger!"){
             console.log('Remote start successful:', data);
             // Set an interval to call the sayHello function every 1000 milliseconds (1 second)
-            const transactionStartedFlag = setInterval(checkTranscationStarted, 5000);
+            transactionStartedFlag = setInterval(checkTranscationStarted, 5000);
 
-            askSession = 1;
+            // askSession = 1;
 
           }
           else if(data['error'] === "User not allowed to charge"){
@@ -70,7 +68,8 @@ function StartCharging (){
     }
 
     const handleBackButton = () => {
-        dispatch(setAppState({value: 'home'}));
+      clearInterval(transactionStartedFlag);
+      dispatch(setAppState({value: 'home'}));
     }
 
     return(
