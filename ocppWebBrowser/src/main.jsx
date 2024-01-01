@@ -10,6 +10,7 @@ import HomePage from './components/Home/HomePage.jsx'
 import ChooseConnector from './components/ChooseConnector/ChooseConnector.jsx'
 import StartCharging from './components/StartCharging/StartCharging.jsx'
 import SessionInfo from './components/SessionInfo/SessionInfo.jsx'
+import SessionFinished from './components/SessionFinished/SessionFinished.jsx'
 
 // Routes can be nested as per requirement
 const router = createBrowserRouter(
@@ -23,6 +24,7 @@ const router = createBrowserRouter(
       />
       <Route path='startCharging' element={<StartCharging />} />
       <Route path='sessionInfo' element={<SessionInfo />} />
+      <Route path='sessionFinished' element={<SessionFinished />} />
     </Route>
   )
 )

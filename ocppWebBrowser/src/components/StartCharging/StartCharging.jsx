@@ -1,6 +1,6 @@
 import React,{useCallback, useEffect, useState} from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { setAppState} from '../../features/slice/slice';
+import { setAppState,setTransactionId} from '../../features/slice/slice';
 
 function StartCharging (){
     const selectedConn = useSelector((state) => state.selectedConnector)
@@ -22,8 +22,11 @@ function StartCharging (){
         .then(data => {
             console.log('Transaction Started status response: ', data);
             if(data["Transaction Id"] !== null){
+              const transactionId = data["Transaction Id"]
               clearInterval(transactionStartedFlag);
               dispatch(setAppState({value: 'sessionInfo'}));
+              // console.log(typeof transactionId)
+              dispatch(setTransactionId(transactionId));
             }
         })
         .catch(error => {

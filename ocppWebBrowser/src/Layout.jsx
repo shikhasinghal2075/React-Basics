@@ -6,21 +6,19 @@ function Layout(){
     const appState = useSelector((state) => state.appState);
     const navigate = useNavigate();
     const chargers = useSelector((state) => state.chargers)
-
-    // Just to monitor data in console at the moment
-    useEffect(() => {
-        console.log('Chargers data:', chargers);
-        // Extract Charger Info and Connector Info
-        if(chargers.length > 0){
-            chargers.map((charger) => {
-                console.log('Charger Information:', charger);
-                charger['connectors'].map((connector) => {
-                    console.log('Connector Information:', connector);
-                })
-            })
-        }
-    },[chargers])
-
+    // // Just to monitor data in console at the moment
+    // useEffect(() => {
+    //     console.log('Chargers data:', chargers);
+    //     // Extract Charger Info and Connector Info
+    //     if(chargers.length > 0){
+    //         chargers.map((charger) => {
+    //             console.log('Charger Information:', charger);
+    //             charger['connectors'].map((connector) => {
+    //                 console.log('Connector Information:', connector);
+    //             })
+    //         })
+    //     }
+    // },[chargers])
     useEffect(() => {
         console.log('appState:', appState);
         // Log the appState variable

@@ -9,7 +9,8 @@ const initialState = {
   selectedConnector: {
     chargerId: '',
     connectorId: ''
-  }
+  },
+  transactionId: 0
 }
 
 export const slice = createSlice({
@@ -25,9 +26,12 @@ export const slice = createSlice({
       setSelectedConnector: (state, action) => {
         state.selectedConnector.chargerId = action.payload.chargerId;
         state.selectedConnector.connectorId = action.payload.connectorId;
+      },
+      setTransactionId: (state,action) => {
+        state.transactionId = action.payload;
       }
     },
 });
 
-export const {setAppState,setChargers,setSelectedConnector} = slice.actions
+export const {setAppState,setChargers,setSelectedConnector,setTransactionId} = slice.actions
 export default slice.reducer
