@@ -53,9 +53,6 @@ function StartCharging (){
             console.log('Remote start successful:', data);
             // Set an interval to call the sayHello function every 1000 milliseconds (1 second)
             transactionStartedFlag = setInterval(checkTranscationStarted, 5000);
-
-            // askSession = 1;
-
           }
           else if(data['error'] === "User not allowed to charge"){
             setErrorMessage(data['error']);

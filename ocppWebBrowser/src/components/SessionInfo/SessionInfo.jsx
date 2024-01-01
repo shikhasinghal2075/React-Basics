@@ -49,21 +49,14 @@ function SessionInfo() {
 
     useEffect(() => {
         // Runs one time on page initialization
-        console.log(transactionId);
+        console.log("asdfgh ",getMeterValues);
         const intervalId = setInterval(checkMeterValues, 3000);
         setGetMeterValues(intervalId);
-
-        // Cleanup function to clear the interval when the component unmounts
-        return () => {
-            if (getMeterValues) {
-                clearInterval(getMeterValues);
-            }
-        };
-    }, [transactionId]);
+    }, []);
 
     const checkTransactionEndedStatus = () => {
         // Construct the URL with parameters
-        const baseUrl = `http://localhost:8081/api/RemoteStop`;
+        const baseUrl = `http://localhost:8081/api/transactionEndedStatus`;
         const url = `${baseUrl}?transactionId=${transactionId}`;
 
         // Hit transaction started request
@@ -78,7 +71,7 @@ function SessionInfo() {
                 console.log("Session stopped successfully and clear interval called")
                 clearInterval(getMeterValues);
                 clearInterval(getTransactionStopStatus);
-                dispatch(setAppState("sessionFinished"))
+                dispatch(setAppState({value:"sessionFinished"}))
             }
         })
         .catch(error => {
@@ -88,6 +81,7 @@ function SessionInfo() {
 
     const handleStopCharging = () => {
         console.log("Stop button clicked");
+        // clearInterval(getMeterValues);
 
         // Construct the URL with parameters
         const baseUrl = `http://localhost:8081/api/RemoteStop`;
