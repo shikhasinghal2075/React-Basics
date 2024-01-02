@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { setAppState} from '../../features/slice/slice';
+import { setAppState,setSessionEndInfo} from '../../features/slice/slice';
 
 function SessionInfo() {
     const transactionId = useSelector((state) => state.transactionId);
@@ -9,12 +9,13 @@ function SessionInfo() {
     const [voltage, setVoltage] = useState('N/A');
     const [power, setPower] = useState('N/A');
     const [energy, setEnergy] = useState('N/A');
-    const [getMeterValues, setGetMeterValues] = useState(null);
-    let getTransactionStopStatus;
     const dispatch = useDispatch();
-    
+    let getTransactionStopStatus;
+    const [getMeterValues, setGetMeterValues] = useState(null);
 
-    const checkMeterValues = function () {
+    // let intervalId;
+    
+    const checkMeterValues = () => {
         // Construct the URL with parameters
         const baseUrl = `http://localhost:8081/api/meterValues`;
         const url = `${baseUrl}?transactionId=${transactionId}`;
@@ -27,7 +28,7 @@ function SessionInfo() {
         .then(response => response.json())
         .then(data => {
             console.log('Meter values received: ', data);
-            if (data["error"] !== "No meter values found") {
+            if(data["error"] !== "No meter values found"){
                 const socVal = data["SOC(Percent)"];
                 const currentVal = data["Current(A)"];
                 const voltageVal = data["Voltage(V)"];
@@ -39,7 +40,6 @@ function SessionInfo() {
                 setPower(powerVal + " kW");
                 setEnergy(energyVal + " units");
                 setVoltage(voltageVal + " V");
-
             }
         })
         .catch(error => {
@@ -49,8 +49,7 @@ function SessionInfo() {
 
     useEffect(() => {
         // Runs one time on page initialization
-        console.log("asdfgh ",getMeterValues);
-        const intervalId = setInterval(checkMeterValues, 3000);
+        const intervalId = setInterval(checkMeterValues, 30000);
         setGetMeterValues(intervalId);
     }, []);
 
@@ -68,10 +67,20 @@ function SessionInfo() {
         .then(data => {
             console.log('Transaction Ended status received: ', data);
             if (data["TransactionId"] !== null) {
+                const meterStart = data["MeterStart"]
+                const meterStop = data["MeterStop"]
+                const bill = data["Bill"]
+
+                // To convert in kWh
+                let unitsConsumed;
+                unitsConsumed = parseInt((meterStop - meterStart)/1000);
+                console.log("units consumed: ", unitsConsumed);
+
                 console.log("Session stopped successfully and clear interval called")
                 clearInterval(getMeterValues);
                 clearInterval(getTransactionStopStatus);
                 dispatch(setAppState({value:"sessionFinished"}))
+                dispatch(setSessionEndInfo({unitsConsumed: `${unitsConsumed}`,bill: `${bill}`}))
             }
         })
         .catch(error => {
@@ -81,7 +90,6 @@ function SessionInfo() {
 
     const handleStopCharging = () => {
         console.log("Stop button clicked");
-        // clearInterval(getMeterValues);
 
         // Construct the URL with parameters
         const baseUrl = `http://localhost:8081/api/RemoteStop`;

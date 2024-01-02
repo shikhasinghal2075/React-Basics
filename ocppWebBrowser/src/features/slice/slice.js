@@ -10,7 +10,11 @@ const initialState = {
     chargerId: '',
     connectorId: ''
   },
-  transactionId: 0
+  transactionId: 0,
+  sessionEndInfo:{
+    unitsConsumed: 0,
+    bill: 0
+  }
 }
 
 export const slice = createSlice({
@@ -29,9 +33,13 @@ export const slice = createSlice({
       },
       setTransactionId: (state,action) => {
         state.transactionId = action.payload;
+      },
+      setSessionEndInfo: (state, action) => {
+        state.sessionEndInfo.unitsConsumed = action.payload.unitsConsumed;
+        state.sessionEndInfo.bill = action.payload.bill;
       }
     },
 });
 
-export const {setAppState,setChargers,setSelectedConnector,setTransactionId} = slice.actions
+export const {setAppState,setChargers,setSelectedConnector,setTransactionId,setSessionEndInfo} = slice.actions
 export default slice.reducer
